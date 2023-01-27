@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Definition>
+  <AminoSoftware.Ebcdic.Definition>
+    <Columns>
+      <AminoSoftware.Ebcdic.CopyBook.RegularColumn Name="RowType" Length="1" ColumnID="e7f8c03b-befb-4aba-8688-8f97ac7d4411" NumberOfDecimalPlaces="0" />
+      <AminoSoftware.Ebcdic.CopyBook.RegularColumn Name="Names" Length="50" ColumnID="7f72faef-88a5-446c-b2b4-d5c0a67ae3d2" NumberOfDecimalPlaces="0" />
+    </Columns>
+  </AminoSoftware.Ebcdic.Definition>
+</Definition>

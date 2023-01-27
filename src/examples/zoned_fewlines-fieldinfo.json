@@ -1,0 +1,32 @@
+[
+    {
+        "level": 5,
+        "name": "FAKE-SEGMENT",
+        "outputLength": 0,
+        "numberOfInputBytesNeeded": 0,
+        "decimalPositionFromEnd": 0,
+        "decimalType": 0,
+        "fieldType": 1,
+        "fieldTypeName": null,
+        "isSigned": false,
+        "notes": "\"Line does not contain a 'PIC' clause\\r\\n                \\r\\n                Example:\\r\\n                \\r\\n                #line that is just a 'group' field doesn't represent any actual bytes\\r\\n\\r\\n                10 SEGMENT-GROUP-1.\\r\\n                \\r\\n                vs \\r\\n                \\r\\n                #valid line\\r\\n                \\r\\n                10 SEGMENT-LENGTH       PIC S9(4) COMP.\\r\\n                \\r\\n                \"",
+        "isValid": false,
+        "isSupported": false,
+        "requiresConversion": false
+    },
+    {
+        "level": 10,
+        "name": "FAKE-ZONED",
+        "outputLength": 11,
+        "numberOfInputBytesNeeded": 10,
+        "decimalPositionFromEnd": 0,
+        "decimalType": 2,
+        "fieldType": 7,
+        "fieldTypeName": "Zoned",
+        "isSigned": true,
+        "notes": "\"\"",
+        "isValid": true,
+        "isSupported": true,
+        "requiresConversion": true
+    }
+]

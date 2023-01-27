@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+			"type": "npm",
+			"script": "install",
+			"path": ".",
+			"group": {
+				"kind": "build"
+			},
+			"problemMatcher": [],
+			"label": "npm: install",
+		}
+	]
+}

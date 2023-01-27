@@ -1,0 +1,596 @@
+                                                                                                                                    
+      01  HEADER-RECORD.                                                                                                             
+          05  HEADER-FIRST-PART          PIC X(26)                                                                                   
+              VALUE 'HD  FTB PROCESSING DATE:  '.                                                                                    
+          05  HEADER-PROCESS-DATE        PIC 9(9)    VALUE ZEROS.                                                                    
+          05  HEADER-FILE-DESCRIPTION    PIC X(45)                                                                                   
+              VALUE '5/3 AI DIF FILE                              '.                                                                 
+          05  FILLER                     PIC X(423) VALUE SPACES.                                                                    
+                                                                                                                                     
+      01  TRAILER-RECORD.                                                                                                            
+          05  TRAILER-FIRST-PART         PIC X(4)    VALUE 'TR  '.                                                                   
+          05  TRAILER-RECORDS-OUT        PIC 9(9)    VALUE ZEROS.                                                                    
+          05  FILLER                     PIC X(490) VALUE SPACES.                                                                    
+                                                                                                                                     
+      COPY ISTSYUDF.                                                                                                                 
+     *----------------------------------------- YUDF ----------*       00001000                                                      
+     *  NAME:  ISTSYUDF             DATE WRITTEN:  09/01/2004  *       00002000                                                      
+     *                              DATE REVISED:  09/05/2008  *       00002001                                                      
+     *                                                         *       00002002                                                      
+     *                              SEE REV LOG BELOW...       *       00002003                                                      
+     *                                                         *       00002004                                                      
+     *  NOTE: COPY BOOK FOR THE DIF FILE                       *       00005000                                                      
+     *        THIS WILL CONTAIN ALL FIELDS THAT ARE POPULATED  *       00006000                                                      
+     *        DURING THE INITIALIZATION IN ISINIDIF            *       00007000                                                      
+     *                                                         *       00008000                                                      
+     *  NOTE:  IF ANY CHANGES ARE MADE TO THIS COPYBOOK        *       00009000                                                      
+     *         PLEASE BE SURE THAT ALL FIELDS BEGIN WITH       *       00010000                                                      
+     *         IS-TSU. ALSO BE SURE TO UPDATE COPYBOOKS        *       00010001                                                      
+     *         ISTSYEXT AND ISTSYYES.                          *       00010002                                                      
+     *                                                         *       00012000                                                      
+     *  LRECL=4000                                             *       00012001                                                      
+     *---------------------------------------------------------*       00014000                                                      
+     *                                                                 00014001                                                      
+     ************* REVISIONS ***************************************** 00014002                                                      
+     *MOD¦  WO #  ¦  DATE    ¦   NAME      ¦    DESCRIPTION          * 00014003                                                      
+     *---------------------------------------------------------------* 00014004                                                      
+     * 5 ¦279338  ¦ 09/05/08 ¦ C. WOODWARD ¦ REDUCE FILLER ON END    * 00014005                                                      
+     *   ¦        ¦          ¦             ¦ BY -1.                  * 00014006                                                      
+     *---------------------------------------------------------------* 00014007                                                      
+     * 4 ¦        ¦ 08/10/08 ¦ C. HUFF     ¦ DIF EXPANSION UPDATE    * 00014008                                                      
+     *---------------------------------------------------------------* 00014009                                                      
+     * 3 ¦263693  ¦ 07/30/07 ¦ T. KISHLER  ¦ DIF EXPANSION UPDATE    * 00014010                                                      
+     *---------------------------------------------------------------* 00014011                                                      
+     * 2 ¦250193  ¦ 08/03/06 ¦ C. WOODWARD ¦ RENAME CUSTOM DATA 90 TO* 00014012                                                      
+     *   ¦        ¦          ¦             ¦ REWARDS POINT BALANCE.  * 00014013                                                      
+     *   ¦        ¦          ¦             ¦ RENAME CUSTOM DATA 91 TO* 00014014                                                      
+     *   ¦        ¦          ¦             ¦ REWARDS POINTS AS OF    * 00014015                                                      
+     *   ¦        ¦          ¦             ¦ DATE.                   * 00014016                                                      
+     *   ¦        ¦          ¦             ¦ RENAME CUSTOM DATA 80   * 00014017                                                      
+     *   ¦        ¦          ¦             ¦ TO ITS ORIGINAL NAME.   * 00014018                                                      
+     *   ¦        ¦          ¦             ¦ RENAME CUSTOM DATA 81   * 00014019                                                      
+     *   ¦        ¦          ¦             ¦ TO ITS ORIGINAL NAME.   * 00014020                                                      
+     *---------------------------------------------------------------* 00014021                                                      
+     * 1 ¦248207  ¦ 06/20/06 ¦ C. WOODWARD ¦ RENAME CUSTOM DATA 80   * 00014022                                                      
+     *   ¦        ¦          ¦             ¦ TO REWARDS POINTS.      * 00014023                                                      
+     *   ¦        ¦          ¦             ¦ RENAME CUSTOM DATA 81   * 00014024                                                      
+     *   ¦        ¦          ¦             ¦ TO REWARDS POINTS AS OF * 00014025                                                      
+     *   ¦        ¦          ¦             ¦ DATE.                   * 00014026                                                      
+     *---------------------------------------------------------------* 00014027                                                      
+     *                                                                 00014028                                                      
+     *                                                                 00014029                                                      
+      01  IS-TSU-DIF-REC.                                              00015000                                                      
+          05  IS-TSU-ICA-NUM                   PIC X(6).               00016000                                                      
+          05  IS-TSU-ACCOUNT-NUM               PIC X(16).              00017000                                                      
+          05  IS-TSU-53-SYS                    PIC X(4).               00018000                                                      
+          05  IS-TSU-53-PRIN                   PIC X(4).               00019000                                                      
+          05  IS-TSU-53-AGENT                  PIC X(4).               00020000                                                      
+          05  IS-TSU-PROVIDER-1                PIC 9(6).               00021000                                                      
+          05  IS-TSU-PROVIDER-2                PIC 9(6).               00022000                                                      
+          05  IS-TSU-PROVIDER-3                PIC 9(6).               00023000                                                      
+          05  IS-TSU-PROD-CODE                 PIC X(2).               00024000                                                      
+          05  IS-TSU-CLIENT-PROD-CODE          PIC X(3).               00025000                                                      
+          05  IS-TSU-CMID.                                             00026000                                                      
+              10  IS-TSU-TPC                   PIC X(2).               00026001                                                      
+              10  IS-TSU-CPC                   PIC X(3).               00026002                                                      
+              10  IS-TSU-ID                    PIC X.                  00026003                                                      
+              10  FILLER                       PIC X(2).               00026004                                                      
+          05  IS-TSU-ACCOUNT-ID                PIC 9(11).              00027000                                                      
+          05  IS-TSU-SUFFIX-NUM                PIC 9(2).               00028000                                                      
+          05  IS-TSU-RELATION-STATUS           PIC X.                  00029000                                                      
+          05  IS-TSU-DO-NOT-SOLICIT            PIC X.                  00030000                                                      
+          05  IS-TSU-PRIMARY-NAME.                                     00031000                                                      
+              10  IS-TSU-LAST-NAME             PIC X(20).              00032000                                                      
+              10  IS-TSU-FIRST-NAME            PIC X(15).              00033000                                                      
+              10  IS-TSU-MIDDLE-INITIAL        PIC X.                  00034000                                                      
+              10  IS-TSU-NAME-SUFFIX           PIC X(10).              00035000                                                      
+          05  IS-TSU-ADDRESS-LINE-1            PIC X(40).              00036000                                                      
+          05  IS-TSU-ADDRESS-LINE-2            PIC X(40).              00037000                                                      
+          05  IS-TSU-CITY                      PIC X(19).              00038000                                                      
+          05  IS-TSU-STATE                     PIC X(3).               00039000                                                      
+          05  IS-TSU-ZIP-CODE                  PIC X(13).              00040000                                                      
+          05  IS-TSU-COUNTRY-CODE              PIC X(3).               00041000                                                      
+          05  IS-TSU-HOME-PHONE                PIC S9(17) COMP-3.      00042000                                                      
+          05  IS-TSU-BUS-PHONE                 PIC S9(17) COMP-3.      00043000                                                      
+          05  IS-TSU-SSN                       PIC S9(9) COMP-3.       00044000                                                      
+          05  IS-TSU-DATE-OF-BIRTH             PIC S9(7) COMP-3.       00045000                                                      
+          05  IS-TSU-DATE-OF-BIRTH-YYYYMMDD    PIC X(8).               00046000                                                      
+          05  IS-TSU-TRANSIT-ROUTING           PIC S9(9) COMP-3.       00047000                                                      
+          05  IS-TSU-DDA-NUM                   PIC X(17).              00048000                                                      
+          05  IS-TSU-DDA-NUM-2                 PIC X(17).              00049000                                                      
+          05  IS-TSU-DDA-NUM-3                 PIC X(17).              00050000                                                      
+          05  IS-TSU-SAV-NUM                   PIC X(17).              00051000                                                      
+          05  IS-TSU-SAV-NUM-2                 PIC X(17).              00052000                                                      
+          05  IS-TSU-GEN-MAINT-DATE            PIC S9(7) COMP-3.       00053000                                                      
+          05  IS-TSU-GEN-MAINT-DATE-YYYYMMDD   PIC X(8).               00054000                                                      
+          05  IS-TSU-NAME-MAINT-DATE           PIC S9(7) COMP-3.       00055000                                                      
+          05  IS-TSU-NAM-MAINT-DATE-YYYYMMDD   PIC X(8).               00056000                                                      
+          05  IS-TSU-LAST-DDA-MAINT-DATE       PIC S9(7) COMP-3.       00057000                                                      
+          05  IS-TSU-DDA-MAINT-DATE-YYYYMMDD   PIC X(8).               00058000                                                      
+          05  IS-TSU-LAST-SAVING-MAINT-DATE    PIC S9(7) COMP-3.       00059000                                                      
+          05  IS-TSU-SAV-MAINT-DATE-YYYYMMDD   PIC X(8).               00060000                                                      
+          05  IS-TSU-ADDRESS-MAINT-DATE        PIC S9(7) COMP-3.       00061000                                                      
+          05  IS-TSU-ADR-MAINT-DATE-YYYYMMDD   PIC X(8).               00062000                                                      
+          05  IS-TSU-ADDRESS-ADDED-DATE        PIC S9(7) COMP-3.       00063000                                                      
+          05  IS-TSU-ADR-ADDED-DATE-YYYYMMDD   PIC X(8).               00064000                                                      
+          05  IS-TSU-SECONDARY-NAME.                                   00065000                                                      
+              10  IS-TSU-SEC-LAST-NAME         PIC X(20).              00066000                                                      
+              10  IS-TSU-SEC-FIRST-NAME        PIC X(15).              00067000                                                      
+              10  IS-TSU-SEC-MIDDLE-INIT       PIC X.                  00068000                                                      
+              10  IS-TSU-SEC-NAME-SUFFIX       PIC X(10).              00069000                                                      
+          05  IS-TSU-SEC-ADDR-LINE-1           PIC X(40).              00070000                                                      
+          05  IS-TSU-SEC-ADDR-LINE-2           PIC X(40).              00071000                                                      
+          05  IS-TSU-SEC-CITY                  PIC X(19).              00072000                                                      
+          05  IS-TSU-SEC-STATE                 PIC X(3).               00073000                                                      
+          05  IS-TSU-SEC-ZIP-CODE              PIC X(13).              00074000                                                      
+          05  IS-TSU-SEC-COUNTRY-CODE          PIC X(3).               00075000                                                      
+          05  IS-TSU-SEC-HOME-PHONE            PIC S9(17) COMP-3.      00076000                                                      
+          05  IS-TSU-SEC-BUS-PHONE             PIC S9(17) COMP-3.      00077000                                                      
+          05  IS-TSU-SEC-SSN                   PIC S9(9) COMP-3.       00078000                                                      
+          05  IS-TSU-SEC-DATE-OF-BIRTH         PIC S9(7) COMP-3.       00079000                                                      
+          05  IS-TSU-SEC-BIRTH-DT-YYYYMMDD     PIC X(8).               00080000                                                      
+          05  IS-TSU-SEC-TRANSIT-ROUTING       PIC S9(9) COMP-3.       00081000                                                      
+          05  IS-TSU-SEC-DDA-NUM               PIC X(17).              00082000                                                      
+          05  IS-TSU-SEC-SAV-NUM               PIC X(17).              00083000                                                      
+          05  IS-TSU-GUARANTOR-NAME.                                   00084000                                                      
+              10  IS-TSU-GUAR-LAST-NAME        PIC X(20).              00085000                                                      
+              10  IS-TSU-GUAR-FIRST-NAME       PIC X(15).              00086000                                                      
+              10  IS-TSU-GUAR-MIDDLE-INIT      PIC X.                  00087000                                                      
+              10  IS-TSU-GUAR-NAME-SUFFIX      PIC X(10).              00088000                                                      
+          05  IS-TSU-GUAR-ADDR-LINE-1          PIC X(40).              00089000                                                      
+          05  IS-TSU-GUAR-ADDR-LINE-2          PIC X(40).              00090000                                                      
+          05  IS-TSU-GUAR-CITY                 PIC X(19).              00091000                                                      
+          05  IS-TSU-GUAR-STATE                PIC X(3).               00092000                                                      
+          05  IS-TSU-GUAR-ZIP-CODE             PIC X(13).              00093000                                                      
+          05  IS-TSU-GUAR-PHONE                PIC S9(17) COMP-3.      00094000                                                      
+          05  IS-TSU-GUAR-SSN                  PIC S9(9) COMP-3.       00095000                                                      
+          05  IS-TSU-XFER-TO-ACCT-NBR          PIC X(19).              00096000                                                      
+          05  IS-TSU-XFER-FROM-ACCT-NBR        PIC X(19).              00097000                                                      
+          05  IS-TSU-BRANCH.                                           00098000                                                      
+              10  IS-TSU-AFFIL-LETTER          PIC X.                  00099000                                                      
+              10  IS-TSU-AFFIL-BRANCH          PIC X(5).               00100000                                                      
+          05  FILLER                           PIC X(6).               00101000                                                      
+          05  IS-TSU-MEMBER-NUM                PIC X(19).              00102000                                                      
+          05  IS-TSU-NUM-CARDS-OUT             PIC S9(7) COMP-3.       00103000                                                      
+          05  IS-TSU-NUM-CARDS-TO-REISSUE      PIC S9(7) COMP-3.       00104000                                                      
+          05  IS-TSU-CREDIT-LIFE-FLAG          PIC X.                  00105000                                                      
+          05  IS-TSU-INSUR-RATE-CODE           PIC X(2).               00106000                                                      
+          05  IS-TSU-INSURANCE-OPTION-SET      PIC X(3).               00107000                                                      
+          05  IS-TSU-PROD-CHNG-IN-PROG         PIC X.                  00108000                                                      
+          05  IS-TSU-VIP                       PIC X(2).               00109000                                                      
+          05  IS-TSU-EMPLOYEE                  PIC X(2).               00110000                                                      
+          05  IS-TSU-ACCOUNT-TYPE              PIC X(2).               00111000                                                      
+          05  IS-TSU-AUTO-DEDUCT-TYPE          PIC X(2).               00112000                                                      
+          05  IS-TSU-REISSUE-STAGE             PIC X(2).               00113000                                                      
+          05  IS-TSU-STMT-HOLD-CODE            PIC 9(3).               00114000                                                      
+          05  IS-TSU-TRAVEL-ENROLL-DATE        PIC S9(7) COMP-3.       00115000                                                      
+          05  IS-TSU-TRAVEL-ENR-DT-YYYYMMDD    PIC X(8).               00116000                                                      
+          05  IS-TSU-PROMO-SOLICIT-CODE        PIC X(15).              00117000                                                      
+          05  IS-TSU-REGION-CODE               PIC X(3).               00118000                                                      
+          05  IS-TSU-SECUR-POOL-ID             PIC X(6).               00119000                                                      
+          05  IS-TSU-PLASTIC-TYPE              PIC X.                  00120000                                                      
+          05  IS-TSU-CCI-IND                   PIC X.                  00121000                                                      
+          05  IS-TSU-REWARDS-IND               PIC X.                  00122000                                                      
+          05  IS-TSU-BILLPAY-FLAG              PIC X.                  00123000                                                      
+          05  IS-TSU-GEFA-FLAG                 PIC X.                  00124000                                                      
+          05  IS-TSU-CUSTOM-20                 PIC X(2).               00125000                                                      
+          05  IS-TSU-CUSTOM-21                 PIC X(2).               00126000                                                      
+          05  IS-TSU-CUSTOM-22                 PIC X(2).               00127000                                                      
+          05  IS-TSU-CUSTOM-23                 PIC X(2).               00128000                                                      
+          05  IS-TSU-CUSTOM-24.                                        00130000                                                      
+              10  IS-TSU-SPEC-FLAG-3           PIC X.                  00130001                                                      
+              10  IS-TSU-SPEC-FLAG-4           PIC X.                  00130002                                                      
+          05  IS-TSU-CUSTOM-40.                                        00130003                                                      
+              10  IS-TSU-SPEC-FLAG-6           PIC X.                  00130005                                                      
+              10  IS-TSU-SPEC-FLAG-7           PIC X.                  00130006                                                      
+              10  IS-TSU-SPEC-FLAG-8           PIC X.                  00130007                                                      
+              10  FILLER                       PIC X.                  00130008                                                      
+          05  IS-TSU-CUSTOM-41                 PIC X(4).               00130009                                                      
+          05  IS-TSU-CUSTOM-42                 PIC X(4).               00135000                                                      
+          05  IS-TSU-CUSTOM-43                 PIC X(4).               00136000                                                      
+          05  IS-TSU-CUSTOM-44                 PIC X(4).               00137000                                                      
+          05  IS-TSU-OFFICER-NBR               PIC X(6).               00138000                                                      
+          05  IS-TSU-CONT-LIABILITY            PIC X(6).               00139000                                                      
+          05  IS-TSU-CUSTOM-62                 PIC X(6).               00140000                                                      
+          05  IS-TSU-CUSTOM-63                 PIC X(6).               00141000                                                      
+          05  IS-TSU-CUSTOM-64                 PIC X(6).               00142000                                                      
+          05  IS-TSU-CUSTOM-80                 PIC X(8).               00142001                                                      
+          05  IS-TSU-CUSTOM-81                 PIC X(8).               00142002                                                      
+          05  IS-TSU-RWDS-POINTS               PIC S9(9) COMP-3.       00142003                                                      
+          05  IS-TSU-RWDS-POINTS-AS-OF-DATE    PIC S9(9) COMP-3.       00142004                                                      
+          05  IS-TSU-CUSTOM-92                 PIC S9(9) COMP-3.       00147000                                                      
+          05  IS-TSU-CUSTOM-93                 PIC S9(9) COMP-3.       00148000                                                      
+          05  IS-TSU-RWDS-ENROLL-DATE          PIC X(8).               00149000                                                      
+          05  IS-TSU-RWDS-CANCEL-DATE          PIC X(8).               00150000                                                      
+          05  IS-TSU-REWARD-OPTION             PIC X(4).               00151000                                                      
+          05  IS-TSU-EXPIR-DATE                PIC S9(7) COMP-3.       00152000                                                      
+          05  IS-TSU-EXPIR-DT-YYYYMMDD         PIC X(8).               00153000                                                      
+          05  IS-TSU-BILLING-CYCLE             PIC 9(2).               00154000                                                      
+          05  IS-TSU-ORIGINAL-CREDIT-LINE      PIC S9(11) COMP-3.      00155000                                                      
+          05  IS-TSU-LAST-MAINTAIN-DATE        PIC S9(7) COMP-3.       00156000                                                      
+          05  IS-TSU-LST-MAINT-YYYYMMDD        PIC X(8).               00157000                                                      
+          05  IS-TSU-LAST-STMT-DATE            PIC S9(7) COMP-3.       00158000                                                      
+          05  IS-TSU-LST-STMT-YYYYMMDD         PIC X(8).               00159000                                                      
+          05  IS-TSU-LS-STMT-BALANCE           PIC S9(11)V9(2) COMP-3. 00160000                                                      
+          05  IS-TSU-NUMBER-STMTS              PIC S9(3) COMP-3.       00161000                                                      
+          05  IS-TSU-ACCT-OPEN-DATE            PIC S9(7) COMP-3.       00162000                                                      
+          05  IS-TSU-ACT-OPEN-YYYYMMDD         PIC X(8).               00163000                                                      
+          05  IS-TSU-ACCT-CLOSE-DATE           PIC S9(7) COMP-3.       00164000                                                      
+          05  IS-TSU-ACT-CLOSE-YYYYMMDD        PIC X(8).               00165000                                                      
+          05  IS-TSU-FRAUD-DATE                PIC S9(7) COMP-3.       00166000                                                      
+          05  IS-TSU-FRAUD-DATE-YYYYMMDD       PIC X(8).               00167000                                                      
+          05  IS-TSU-CREDIT-LINE               PIC S9(11) COMP-3.      00168000                                                      
+          05  IS-TSU-POTENTIAL-PURGE-DATE      PIC S9(7) COMP-3.       00169000                                                      
+          05  IS-TSU-POT-PURGE-YYYYMMDD        PIC X(8).               00170000                                                      
+          05  IS-TSU-ACCT-STAT-MAINT-DATE      PIC S9(7) COMP-3.       00171000                                                      
+          05  IS-TSU-ACC-STAT-YYYYMMDD         PIC X(8).               00172000                                                      
+          05  IS-TSU-CURR-CREDIT-SCORE-DATE    PIC S9(7) COMP-3.       00173000                                                      
+          05  IS-TSU-CUR-CRED-SCORE-YYYYMMDD   PIC X(8).               00174000                                                      
+          05  IS-TSU-LAST-LIMIT-CHG-DATE       PIC S9(7) COMP-3.       00175000                                                      
+          05  IS-TSU-LST-LIMIT-CHG-YYYYMMDD    PIC X(8).               00176000                                                      
+          05  IS-TSU-LST-DISC-GRP-CHG-DATE     PIC S9(7) COMP-3.       00177000                                                      
+          05  IS-TSU-LST-DISC-GRP-YYYYMMDD     PIC X(8).               00178000                                                      
+          05  IS-TSU-BLOCK-CARD-CNT            PIC S9(3) COMP-3.       00179000                                                      
+          05  IS-TSU-TRANSFER-DATE             PIC S9(7) COMP-3.       00180000                                                      
+          05  IS-TSU-TRANSFER-YYYYMMDD         PIC X(8).               00181000                                                      
+          05  IS-TSU-LAST-PIN-CHG-DATE         PIC S9(7) COMP-3.       00182000                                                      
+          05  IS-TSU-LAST-PIN-YYYYMMDD         PIC X(8).               00183000                                                      
+          05  IS-TSU-LAST-OFFSET-CHG-DATE      PIC S9(7) COMP-3.       00184000                                                      
+          05  IS-TSU-LAST-OFFSET-YYYYMMDD      PIC X(8).               00185000                                                      
+          05  IS-TSU-CRV-STATUS-DATE           PIC S9(7) COMP-3.       00186000                                                      
+          05  IS-TSU-CRV-STAT-YYYYMMDD         PIC X(8).               00187000                                                      
+          05  IS-TSU-LAST-PIN-REQ-DATE         PIC S9(7) COMP-3.       00188000                                                      
+          05  IS-TSU-LAST-PIN-REQ-YYYYMMDD     PIC X(8).               00189000                                                      
+          05  IS-TSU-HIGH-BAL-DATE             PIC S9(7) COMP-3.       00190000                                                      
+          05  IS-TSU-HIGH-BAL-YYYYMMDD         PIC X(8).               00191000                                                      
+          05  IS-TSU-LAST-MON-TRAN-DATE        PIC S9(7) COMP-3.       00192000                                                      
+          05  IS-TSU-LAST-MON-TRAN-YYYYMMDD    PIC X(8).               00193000                                                      
+          05  IS-TSU-LAST-CASH-ADV-DATE        PIC S9(7) COMP-3.       00194000                                                      
+          05  IS-TSU-LAST-CADV-YYYYMMDD        PIC X(8).               00195000                                                      
+          05  IS-TSU-LAST-PURCH-DATE           PIC S9(7) COMP-3.       00196000                                                      
+          05  IS-TSU-LAST-PURCH-YYYYMMDD       PIC X(8).               00197000                                                      
+          05  IS-TSU-LAST-CREDIT-DATE          PIC S9(7) COMP-3.       00198000                                                      
+          05  IS-TSU-LAST-CREDIT-YYYYMMDD      PIC X(8).               00199000                                                      
+          05  IS-TSU-LAST-PAYMT-DATE           PIC S9(7) COMP-3.       00200000                                                      
+          05  IS-TSU-LAST-PAYMT-YYYYMMDD       PIC X(8).               00201000                                                      
+          05  IS-TSU-LAST-SYS-GEN-TRAN-DATE    PIC S9(7) COMP-3.       00202000                                                      
+          05  IS-TSU-LST-SYSGEN-TRN-YYYYMMDD   PIC X(8).               00203000                                                      
+          05  IS-TSU-FIRST-USE-DATE            PIC S9(7) COMP-3.       00204000                                                      
+          05  IS-TSU-FIRST-USE-YYYYMMDD        PIC X(8).               00205000                                                      
+          05  IS-TSU-MONEY-AVAILABLE           PIC S9(11) COMP-3.      00206000                                                      
+          05  IS-TSU-PAYMENT-DUE-DATE          PIC S9(7) COMP-3.       00207000                                                      
+          05  IS-TSU-PAYMNT-DUE-YYYYMMDD       PIC X(8).               00208000                                                      
+          05  IS-TSU-WAIVE-FINCHG-FLAG         PIC X.                  00209000                                                      
+          05  IS-TSU-WAIVE-FCHG-DATE           PIC S9(7) COMP-3.       00210000                                                      
+          05  IS-TSU-WAIVE-FCHG-YYYYMMDD       PIC X(8).               00211000                                                      
+          05  IS-TSU-PIN-OFFSET                PIC X(4).               00212000                                                      
+          05  IS-TSU-CURR-CREDIT-SCORE         PIC S9(5) COMP-3.       00213000                                                      
+          05  IS-TSU-CARD-ACTV-STATUS          PIC X.                  00214000                                                      
+          05  IS-TSU-LAST-CRD-REQ-DATE         PIC S9(7) COMP-3.       00215000                                                      
+          05  IS-TSU-LST-CRD-REQ-YYYYMMDD      PIC X(8).               00216000                                                      
+          05  IS-TSU-CURRENT-BALANCE           PIC S9(11)V9(2) COMP-3. 00217000                                                      
+          05  IS-TSU-PURCH-APR                 PIC S9(4)V9(9) COMP-3.  00218000                                                      
+          05  IS-TSU-CASH-APR                  PIC S9(4)V9(9) COMP-3.  00219000                                                      
+          05  IS-TSU-DELQ-APR                  PIC S9(4)V9(9) COMP-3.  00220000                                                      
+          05  IS-TSU-XFER-PURCH-APR            PIC S9(4)V9(9) COMP-3.  00221000                                                      
+          05  IS-TSU-XFER-CASH-APR             PIC S9(4)V9(9) COMP-3.  00222000                                                      
+          05  IS-TSU-PROMO-PURCH-APR           PIC S9(4)V9(9) COMP-3.  00223000                                                      
+          05  IS-TSU-PROMO-CASH-APR            PIC S9(4)V9(9) COMP-3.  00224000                                                      
+          05  IS-TSU-PROMO-XFER-PURCH-APR      PIC S9(4)V9(9) COMP-3.  00225000                                                      
+          05  IS-TSU-PROMO-XFER-CASH-APR       PIC S9(4)V9(9) COMP-3.  00226000                                                      
+          05  IS-TSU-PURCH-NOM-APR             PIC S9(4)V9(9) COMP-3.  00227000                                                      
+          05  IS-TSU-CASH-NOM-APR              PIC S9(4)V9(9) COMP-3.  00228000                                                      
+          05  IS-TSU-XFER-PURCH-NOM-APR        PIC S9(4)V9(9) COMP-3.  00229000                                                      
+          05  IS-TSU-XFER-CASH-NOM-APR         PIC S9(4)V9(9) COMP-3.  00230000                                                      
+          05  IS-TSU-PROMO-PURCH-NOM-APR       PIC S9(4)V9(9) COMP-3.  00231000                                                      
+          05  IS-TSU-PROMO-CASH-NOM-APR        PIC S9(4)V9(9) COMP-3.  00232000                                                      
+          05  IS-TSU-PR-XFER-PURCH-NOM-APR     PIC S9(4)V9(9) COMP-3.  00233000                                                      
+          05  IS-TSU-PR-XFER-CASH-NOM-APR      PIC S9(4)V9(9) COMP-3.  00234000                                                      
+          05  IS-TSU-ADB-PURCHASES             PIC S9(11)V9(2) COMP-3. 00235000                                                      
+          05  IS-TSU-ADB-CASH-ADV              PIC S9(11)V9(2) COMP-3. 00236000                                                      
+          05  IS-TSU-ADB-XFER-PURCH            PIC S9(11)V9(2) COMP-3. 00237000                                                      
+          05  IS-TSU-ADB-XFER-CADV             PIC S9(11)V9(2) COMP-3. 00238000                                                      
+          05  IS-TSU-ADB-PROMO-PURCH           PIC S9(11)V9(2) COMP-3. 00239000                                                      
+          05  IS-TSU-ADB-PROMO-CADV            PIC S9(11)V9(2) COMP-3. 00240000                                                      
+          05  IS-TSU-ADB-PR-XFER-PURCH         PIC S9(11)V9(2) COMP-3. 00241000                                                      
+          05  IS-TSU-ADB-PR-XFER-CADV          PIC S9(11)V9(2) COMP-3. 00242000                                                      
+          05  IS-TSU-LAST-AUTOPAY-AMT          PIC S9(11)V9(2) COMP-3. 00243000                                                      
+          05  IS-TSU-LAST-AUTOPAY-DATE         PIC S9(7) COMP-3.       00244000                                                      
+          05  IS-TSU-LST-AUTOPAY-YYYYMMDD      PIC X(8).               00245000                                                      
+          05  IS-TSU-LAST-PAY-AMOUNT           PIC S9(11)V9(2) COMP-3. 00246000                                                      
+          05  IS-TSU-FIX-PAY-AMT               PIC S9(11)V9(2) COMP-3. 00247000                                                      
+          05  IS-TSU-BEG-FIX-PAY-DATE          PIC S9(7) COMP-3.       00248000                                                      
+          05  IS-TSU-BEG-FIX-PAY-YYYYMMDD      PIC X(8).               00249000                                                      
+          05  IS-TSU-END-FIX-PAY-DATE          PIC S9(7) COMP-3.       00250000                                                      
+          05  IS-TSU-END-FIX-PAY-YYYYMMDD      PIC X(8).               00251000                                                      
+          05  IS-TSU-YTD-NUM-PAYMENTS          PIC S9(5) COMP-3.       00252000                                                      
+          05  IS-TSU-YTD-AMT-PAYMENTS          PIC S9(11)V9(2) COMP-3. 00253000                                                      
+          05  IS-TSU-CTD-NUM-PAYMENTS          PIC S9(5) COMP-3.       00254000                                                      
+          05  IS-TSU-CTD-AMT-PAYMENTS          PIC S9(11)V9(2) COMP-3. 00255000                                                      
+          05  IS-TSU-AMT-LAST-ANN-FEE          PIC S9(11)V9(2) COMP-3. 00256000                                                      
+          05  IS-TSU-LAST-ANN-FEE-DATE         PIC S9(7) COMP-3.       00257000                                                      
+          05  IS-TSU-LAST-ANNFEE-YYYYMMDD      PIC X(8).               00258000                                                      
+          05  IS-TSU-CHG-ANN-FEE-DATE          PIC S9(7) COMP-3.       00259000                                                      
+          05  IS-TSU-CHG-ANNFEE-YYYYMMDD       PIC X(8).               00260000                                                      
+          05  IS-TSU-PREV-STMT-BAL             PIC S9(11)V9(2) COMP-3. 00261000                                                      
+          05  IS-TSU-YTD-AMT-PURCH             PIC S9(11)V9(2) COMP-3. 00262000                                                      
+          05  IS-TSU-YTD-NUM-PURCH             PIC S9(7) COMP-3.       00263000                                                      
+          05  IS-TSU-YTD-FIN-CHG-BILLED        PIC S9(11)V9(2) COMP-3. 00264000                                                      
+          05  IS-TSU-YTD-FIN-CHG-PAID          PIC S9(11)V9(2) COMP-3. 00265000                                                      
+          05  IS-TSU-MIN-PAY-DUE               PIC S9(11)V9(2) COMP-3. 00266000                                                      
+          05  IS-TSU-LTD-HIGH-BALANCE          PIC S9(11)V9(2) COMP-3. 00267000                                                      
+          05  IS-TSU-CHG-OFF-AMT               PIC S9(11)V9(2) COMP-3. 00268000                                                      
+          05  IS-TSU-AMT-PAST-DUE-30           PIC S9(11)V9(2) COMP-3. 00269000                                                      
+          05  IS-TSU-AMT-PAST-DUE-60           PIC S9(11)V9(2) COMP-3. 00270000                                                      
+          05  IS-TSU-AMT-PAST-DUE-90           PIC S9(11)V9(2) COMP-3. 00271000                                                      
+          05  IS-TSU-AMT-PAST-DUE-120          PIC S9(11)V9(2) COMP-3. 00272000                                                      
+          05  IS-TSU-AMT-PAST-DUE-150          PIC S9(11)V9(2) COMP-3. 00273000                                                      
+          05  IS-TSU-AMT-PAST-DUE-180          PIC S9(11)V9(2) COMP-3. 00274000                                                      
+          05  IS-TSU-AMT-PAST-DUE-210          PIC S9(11)V9(2) COMP-3. 00275000                                                      
+          05  IS-TSU-AMT-PAST-DUE-240          PIC S9(11)V9(2) COMP-3. 00276000                                                      
+          05  IS-TSU-AMT-PAST-DUE-270          PIC S9(11)V9(2) COMP-3. 00277000                                                      
+          05  IS-TSU-AMT-PAST-DUE-271-OVER     PIC S9(11)V9(2) COMP-3. 00278000                                                      
+          05  IS-TSU-AMT-OUTST-AUTHS           PIC S9(11)V9(2) COMP-3. 00279000                                                      
+          05  IS-TSU-NUM-PAST-DUE-30           PIC S9(3) COMP-3.       00280000                                                      
+          05  IS-TSU-NUM-PAST-DUE-60           PIC S9(3) COMP-3.       00281000                                                      
+          05  IS-TSU-NUM-PAST-DUE-90           PIC S9(3) COMP-3.       00282000                                                      
+          05  IS-TSU-NUM-PAST-DUE-120          PIC S9(3) COMP-3.       00283000                                                      
+          05  IS-TSU-NUM-PAST-DUE-150          PIC S9(3) COMP-3.       00284000                                                      
+          05  IS-TSU-NUM-PAST-DUE-180          PIC S9(3) COMP-3.       00285000                                                      
+          05  IS-TSU-NUM-PAST-DUE-210          PIC S9(3) COMP-3.       00286000                                                      
+          05  IS-TSU-NUM-PAST-DUE-240          PIC S9(3) COMP-3.       00287000                                                      
+          05  IS-TSU-NUM-PAST-DUE-270          PIC S9(3) COMP-3.       00288000                                                      
+          05  IS-TSU-NUM-PAST-DUE-271-OVER     PIC S9(3) COMP-3.       00289000                                                      
+          05  IS-TSU-DATE-LAST-PAST-DUE        PIC S9(7) COMP-3.       00290000                                                      
+          05  IS-TSU-LAST-PAST-DUE-YYYYMMDD    PIC X(8).               00291000                                                      
+          05  IS-TSU-OVERLIM-AMOUNT            PIC S9(11)V9(2) COMP-3. 00292000                                                      
+          05  IS-TSU-BANKRUPTCY-TYPE           PIC X(2).               00293000                                                      
+          05  IS-TSU-COLL-MAINT-STAT-DATE      PIC S9(7) COMP-3.       00294000                                                      
+          05  IS-TSU-COLL-MAINT-YYYYMMDD       PIC X(8).               00295000                                                      
+          05  IS-TSU-STATC-CLOSED              PIC X(2).               00296000                                                      
+          05  IS-TSU-STATC-CLOSED-DATE         PIC S9(7) COMP-3.       00297000                                                      
+          05  IS-TSU-CLOSED-YYYYMMDD           PIC X(8).               00298000                                                      
+          05  IS-TSU-STATC-DISPUTE             PIC X(2).               00299000                                                      
+          05  IS-TSU-STATC-SECURITY-FRAUD      PIC X(2).               00300000                                                      
+          05  IS-TSU-STATC-SEC-FRAUD-DATE      PIC S9(7) COMP-3.       00301000                                                      
+          05  IS-TSU-STATC-FRAUD-YYYYMMDD      PIC X(8).               00302000                                                      
+          05  IS-TSU-STATC-CHARGE-OFF          PIC X(2).               00303000                                                      
+          05  IS-TSU-CHARGE-OFF-DATE           PIC S9(7) COMP-3.       00304000                                                      
+          05  IS-TSU-CHARGE-OFF-YYYYMMDD       PIC X(8).               00305000                                                      
+          05  IS-TSU-STATC-CREDIT-REVOKE       PIC X(2).               00306000                                                      
+          05  IS-TSU-CRED-RVK-MAINT-DATE       PIC S9(7) COMP-3.       00307000                                                      
+          05  IS-TSU-CRVK-MAINT-YYYYMMDD       PIC X(8).               00308000                                                      
+          05  IS-TSU-CREDIT-RVK-ADD-DATE       PIC S9(7) COMP-3.       00309000                                                      
+          05  IS-TSU-CRVK-ADD-YYYYMMDD         PIC X(8).               00310000                                                      
+          05  IS-TSU-STATC-CURR-OVERLIMIT      PIC X(2).               00311000                                                      
+          05  IS-TSU-STATC-CURR-PAST-DUE       PIC X(2).               00312000                                                      
+          05  IS-TSU-STATC-APPL-STATUS         PIC X(2).               00313000                                                      
+          05  IS-TSU-STATC-CLIENT-DEFINED      PIC X(2).               00314000                                                      
+          05  IS-TSU-STATC-FIXED-PAYMENT       PIC X(2).               00315000                                                      
+          05  IS-TSU-STATC-FIRST-USE           PIC X(2).               00316000                                                      
+          05  IS-TSU-STATC-LEGAL               PIC X(2).               00317000                                                      
+          05  IS-TSU-STATC-REAGE-AUTO          PIC X(2).               00318000                                                      
+          05  IS-TSU-STATC-RECENCY             PIC X(2).               00319000                                                      
+          05  IS-TSU-STATC-DELQ                PIC X(2).               00320000                                                      
+          05  IS-TSU-STATC-TRANSFER            PIC X(2).               00321000                                                      
+          05  IS-TSU-STATF-ACTIVE-TODAY        PIC X(1).               00322000                                                      
+          05  IS-TSU-STATF-BROKEN-PROMISE      PIC X(1).               00323000                                                      
+          05  IS-TSU-STATF-CSH-ACT-THIS-CYC    PIC X(1).               00324000                                                      
+          05  IS-TSU-STATF-CRED-COUNSELING     PIC X(1).               00325000                                                      
+          05  IS-TSU-STATF-CRED-ACTV-TODAY     PIC X(1).               00326000                                                      
+          05  IS-TSU-STATF-DEBIT-ACTV-TODAY    PIC X(1).               00327000                                                      
+          05  IS-TSU-STATF-INACTIVE            PIC X(1).               00328000                                                      
+          05  IS-TSU-STATF-POTENTIAL-PURGE     PIC X(1).               00329000                                                      
+          05  IS-TSU-STATF-PMNT-ACT-THIS-CY    PIC X(1).               00330000                                                      
+          05  IS-TSU-STATF-REFUSED-TO-PAY      PIC X(1).               00331000                                                      
+          05  IS-TSU-STATF-RECOVERY            PIC X(1).               00332000                                                      
+          05  IS-TSU-STATF-SOLDR-SAILOR-ACT    PIC X(1).               00333000                                                      
+          05  IS-TSU-STATF-WARNING-BULLETIN    PIC X(1).               00334000                                                      
+          05  IS-TSU-STATF-ACCT-CYC-TODAY      PIC X.                  00335000                                                      
+          05  IS-TSU-ADDR-CHG-THIS-CYCLE       PIC X.                  00336000                                                      
+          05  IS-TSU-STATF-NEW-ACCT-TODAY      PIC X.                  00337000                                                      
+          05  IS-TSU-STATF-FRAUD-FLAG          PIC X.                  00338000                                                      
+          05  IS-TSU-PY-TOTAL-FIN-CHGS         PIC S9(11)V9(2) COMP-3. 00339000                                                      
+          05  IS-TSU-DATE-LAST-REVIEW          PIC S9(7) COMP-3.       00340000                                                      
+          05  IS-TSU-LST-REVIEW-YYYYMMDD       PIC X(8).               00341000                                                      
+          05  IS-TSU-CONS-BILL-PAST-DUE        PIC S9(3) COMP-3.       00342000                                                      
+          05  IS-TSU-PREV-STMT-DATE            PIC S9(7) COMP-3.       00343000                                                      
+          05  IS-TSU-PREV-STMT-YYYYMMDD        PIC X(8).               00344000                                                      
+          05  IS-TSU-DATE-NEXT-REVIEW          PIC S9(7) COMP-3.       00345000                                                      
+          05  IS-TSU-NEXT-REVIEW-YYYYMMDD      PIC X(8).               00346000                                                      
+          05  IS-TSU-NUM-MONTHS-OVERLIM-LTD    PIC S9(3) COMP-3.       00347000                                                      
+          05  IS-TSU-NUM-MONTHS-PASTDUE-LTD    PIC S9(5) COMP-3.       00348000                                                      
+          05  IS-TSU-NUM-STMTS-WITH-FCHG-LTD   PIC S9(3) COMP-3.       00349000                                                      
+          05  IS-TSU-TYP-LAST-CRLINE-CHG       PIC X.                  00350000                                                      
+          05  IS-TSU-PRIN-DELQ-AMT             PIC S9(11)V9(2) COMP-3. 00351000                                                      
+          05  IS-TSU-INT-DELQ-AMT              PIC S9(11)V9(2) COMP-3. 00352000                                                      
+          05  IS-TSU-LATE-FEES                 PIC S9(11)V9(2) COMP-3. 00353000                                                      
+          05  IS-TSU-CURR-UNPD-INT-BILLED      PIC S9(11)V9(2) COMP-3. 00354000                                                      
+          05  IS-TSU-CURR-UNPD-MRCH-BILLED     PIC S9(11)V9(2) COMP-3. 00355000                                                      
+          05  IS-TSU-CURR-UNPD-CADV-BILLED     PIC S9(11)V9(2) COMP-3. 00356000                                                      
+          05  IS-TSU-LAST-STMT-FCHG            PIC S9(11)V9(2) COMP-3. 00356001                                                      
+          05  IS-TSU-LAST-STMT-PURCH           PIC S9(11)V9(2) COMP-3. 00358000                                                      
+          05  IS-TSU-LAST-STMT-CADV            PIC S9(11)V9(2) COMP-3. 00359000                                                      
+          05  IS-TSU-PREV-STMT-FCHG            PIC S9(11)V9(2) COMP-3. 00359001                                                      
+          05  IS-TSU-PREV-STMT-PURCH           PIC S9(11)V9(2) COMP-3. 00361000                                                      
+          05  IS-TSU-PREV-STMT-CADV            PIC S9(11)V9(2) COMP-3. 00362000                                                      
+          05  IS-TSU-CTD-PURCHASES-AMT         PIC S9(11)V9(2) COMP-3. 00363000                                                      
+          05  IS-TSU-CTD-CASH-ADVANCES-AMT     PIC S9(11)V9(2) COMP-3. 00364000                                                      
+          05  IS-TSU-CTD-CREDITS-AMT           PIC S9(11)V9(2) COMP-3. 00364001                                                      
+          05  IS-TSU-CTD-NUM-PURCHASES         PIC 9(2).               00366000                                                      
+          05  IS-TSU-CTD-NUM-CASH-ADV          PIC 9(2).               00367000                                                      
+          05  IS-TSU-CTD-NUM-RETURNS           PIC 9(2).               00368000                                                      
+          05  IS-TSU-CTD-NUM-ADJUSTMENTS       PIC 9(2).               00369000                                                      
+          05  IS-TSU-HIGH-ARREARS              PIC S9(11)V9(2) COMP-3. 00370000                                                      
+          05  IS-TSU-AUTH-FLAG                 PIC X.                  00371000                                                      
+          05  IS-TSU-PAY-AHEAD-FLAG            PIC X.                  00372000                                                      
+          05  IS-TSU-ANNUAL-FEE-FLAG           PIC X.                  00373000                                                      
+          05  IS-TSU-GRACE-PERIOD-FLAG         PIC X.                  00374000                                                      
+          05  IS-TSU-COFF-COLLECTION-CODE      PIC X(2).               00375000                                                      
+          05  IS-TSU-COFF-PRINCIPAL-AMT        PIC S9(11)V9(2) COMP-3. 00376000                                                      
+          05  IS-TSU-COFF-INTEREST-AMT         PIC S9(11)V9(2) COMP-3. 00377000                                                      
+          05  IS-TSU-CTD-FCHG-PURCH            PIC S9(11)V9(2) COMP-3. 00378000                                                      
+          05  IS-TSU-CTD-FCHG-CADV             PIC S9(11)V9(2) COMP-3. 00379000                                                      
+          05  IS-TSU-LAST-STMT-CREDITS         PIC S9(11)V9(2) COMP-3. 00379001                                                      
+          05  IS-TSU-LAST-STMT-PAYMENTS        PIC S9(11)V9(2) COMP-3. 00379002                                                      
+          05  IS-TSU-PREV-STMT-CREDITS         PIC S9(11)V9(2) COMP-3. 00379003                                                      
+          05  IS-TSU-PREV-STMT-PAYMENTS        PIC S9(11)V9(2) COMP-3. 00379004                                                      
+          05  IS-TSU-LSTMT-FCHG-PURCH          PIC S9(11)V9(2) COMP-3. 00379005                                                      
+          05  IS-TSU-LSTMT-FCHG-CADV           PIC S9(11)V9(2) COMP-3. 00379006                                                      
+          05  IS-TSU-PROMO-IND                 PIC X.                  00386000                                                      
+          05  IS-TSU-PROMO-END                 PIC X(8).               00387000                                                      
+          05  IS-TSU-NO-MAN-REAGE              PIC S9(3) COMP-3.       00388000                                                      
+          05  IS-TSU-NO-AUTO-REAGE             PIC S9(3) COMP-3.       00389000                                                      
+          05  IS-TSU-NO-TIMES-REAGE            PIC S9(3) COMP-3.       00390000                                                      
+          05  IS-TSU-LAST-MAN-REAGE-DATE       PIC S9(7) COMP-3.       00391000                                                      
+          05  IS-TSU-LAST-MAN-REAGE-YYYYMMDD   PIC X(8).               00392000                                                      
+          05  IS-TSU-LAST-AUTO-REAGE-DATE      PIC S9(7) COMP-3.       00393000                                                      
+          05  IS-TSU-LST-AUTO-REAGE-YYYYMMDD   PIC X(8).               00394000                                                      
+          05  IS-TSU-LAST-REAGE-DATE           PIC X(8).               00395000                                                      
+          05  IS-TSU-EXTERNAL-STATUS           PIC X.                  00396000                                                      
+          05  IS-TSU-INTERNAL-STATUS           PIC X.                  00397000                                                      
+          05  IS-TSU-PRIVATE-BANK-IND          PIC X.                  00398000                                                      
+          05  IS-TSU-ACTIVITY-CODE             PIC X.                  00399000                                                      
+          05  IS-TSU-NUM-DAYS-IN-CYCLE         PIC 9(2).               00400000                                                      
+          05  IS-TSU-DISCLOSURE-GRP            PIC X(8).               00401000                                                      
+          05  IS-TSU-ALT-DISCL-GRP             PIC X(8).               00402000                                                      
+          05  IS-TSU-ALT-DISCL-EXP-DATE        PIC X(8).               00403000                                                      
+          05  IS-TSU-BANKRUPTCY-SCORE          PIC S9(7) COMP-3.       00404000                                                      
+          05  IS-TSU-BANKRUPT-SC-UPDT-DATE     PIC X(8).               00405000                                                      
+          05  IS-TSU-CREDIT-BUREAU-SCORE       PIC S9(7) COMP-3.       00406000                                                      
+          05  IS-TSU-CB-SCORE-UPDT-DATE        PIC X(8).               00407000                                                      
+          05  IS-TSU-BEHAVIOR-SCORE            PIC S9(7) COMP-3.       00408000                                                      
+          05  IS-TSU-LTD-TOTAL-EARNINGS        PIC S9(11)V9(2) COMP-3. 00409000                                                      
+          05  IS-TSU-TOTAL-DELQ-DAYS           PIC S9(3) COMP-3.       00410000                                                      
+          05  IS-TSU-PROFIT-CENTER             PIC X(10).              00411000                                                      
+          05  IS-TSU-ACRO                      PIC X(4).               00412000                                                      
+          05  IS-TSU-PLASTIC-CODE              PIC X(2).               00413000                                                      
+          05  IS-TSU-STATUS-DATE               PIC X(8).               00414000                                                      
+          05  IS-TSU-DEFAULT-NAME              PIC X(30).              00414001                                                      
+          05  IS-TSU-BUSINESS-NAME             PIC X(36).              00414002                                                      
+          05  IS-TSU-BUSINESS-ADDR-LINE-1      PIC X(40).              00414003                                                      
+          05  IS-TSU-BUSINESS-ADDR-LINE-2      PIC X(40).              00414004                                                      
+          05  IS-TSU-BUSINESS-CITY             PIC X(19).              00414005                                                      
+          05  IS-TSU-BUSINESS-STATE            PIC X(3).               00414006                                                      
+          05  IS-TSU-BUSINESS-ZIP              PIC X(13).              00414007                                                      
+          05  IS-TSU-BANK-ACRO                 PIC X(4).               00414008                                                      
+          05  IS-TSU-ACTUAL-DAYS-PASTDUE       PIC S9(5) COMP-3.       00414009                                                      
+          05  IS-TSU-CHGOFF-REASON-CODE        PIC X(2).               00414010                                                      
+          05  IS-TSU-TOT-PAY-DUE               PIC S9(11)V9(2) COMP-3. 00414011                                                      
+          05  IS-TSU-PASTDUE-CYCLE-1AGO        PIC X.                  00414012                                                      
+          05  IS-TSU-PASTDUE-CYCLE-2AGO        PIC X.                  00414013                                                      
+          05  IS-TSU-PASTDUE-CYCLE-3AGO        PIC X.                  00414014                                                      
+          05  IS-TSU-PASTDUE-CYCLE-4AGO        PIC X.                  00414015                                                      
+          05  IS-TSU-PASTDUE-CYCLE-5AGO        PIC X.                  00414016                                                      
+          05  IS-TSU-PASTDUE-CYCLE-6AGO        PIC X.                  00414017                                                      
+          05  IS-TSU-PASTDUE-CYCLE-7AGO        PIC X.                  00414018                                                      
+          05  IS-TSU-ANNUAL-FEE-OPT-SET        PIC 9(4).               00414019                                                      
+          05  IS-TSU-TIERED-WATCH              PIC X(2).               00414020                                                      
+          05  IS-TSU-TIERED-WATCH-EXPIRE       PIC X(8).               00414021                                                      
+          05  IS-TSU-REISSUE-ACTION            PIC X(2).               00414022                                                      
+          05  IS-TSU-CASH-LIMIT                PIC S9(11)V9(2) COMP-3. 00414023                                                      
+          05  IS-TSU-PREV-DISCL-GRP            PIC X(8).               00414024                                                      
+          05  IS-TSU-FCHG-LAST-CYC             PIC S9(11)V9(2) COMP-3. 00414025                                                      
+          05  IS-TSU-AMT-PAY-REVERS            PIC S9(11)V9(2) COMP-3. 00414026                                                      
+          05  IS-TSU-NUM-PAY-REVERS            PIC S9(5)V COMP-3.      00414027                                                      
+          05  IS-TSU-AMT-FEE-TRANS             PIC S9(11)V9(2) COMP-3. 00414028                                                      
+          05  IS-TSU-NET-PURCH-CTD             PIC S9(11)V9(2) COMP-3. 00414029                                                      
+          05  IS-TSU-NUM-PURCH-CTD             PIC S9(5)V COMP-3.      00414030                                                      
+          05  IS-TSU-NET-CADV-CTD              PIC S9(11)V9(2) COMP-3. 00414031                                                      
+          05  IS-TSU-NUM-CADV-CTD              PIC S9(5)V COMP-3.      00414032                                                      
+          05  IS-TSU-ACQ-STRAT-CODE            PIC X(6).               00414034                                                      
+          05  IS-TSU-SOL-REC-ID                PIC X(15).              00414035                                                      
+          05  IS-TSU-LAST-NAME-USER1           PIC X(20).              00414036                                                      
+          05  IS-TSU-FRST-NAME-USER1           PIC X(15).              00414037                                                      
+          05  IS-TSU-MIDI-NAME-USER1           PIC X(01).              00414038                                                      
+          05  IS-TSU-SUFF-NAME-USER1           PIC X(10).              00414039                                                      
+          05  IS-TSU-SSN-USER1                 PIC S9(09) COMP-3.      00414040                                                      
+          05  IS-TSU-LAST-NAME-USER2           PIC X(20).              00414041                                                      
+          05  IS-TSU-FRST-NAME-USER2           PIC X(15).              00414042                                                      
+          05  IS-TSU-MIDI-NAME-USER2           PIC X(01).              00414043                                                      
+          05  IS-TSU-SUFF-NAME-USER2           PIC X(10).              00414044                                                      
+          05  IS-TSU-SSN-USER2                 PIC S9(09) COMP-3.      00414045                                                      
+          05  IS-TSU-LAST-NAME-USER3           PIC X(20).              00414046                                                      
+          05  IS-TSU-FRST-NAME-USER3           PIC X(15).              00414047                                                      
+          05  IS-TSU-MIDI-NAME-USER3           PIC X(01).              00414048                                                      
+          05  IS-TSU-SUFF-NAME-USER3           PIC X(10).              00414049                                                      
+          05  IS-TSU-SSN-USER3                 PIC S9(09) COMP-3.      00414050                                                      
+          05  IS-TSU-LAST-NAME-USER4           PIC X(20).              00414051                                                      
+          05  IS-TSU-FRST-NAME-USER4           PIC X(15).              00414052                                                      
+          05  IS-TSU-MIDI-NAME-USER4           PIC X(01).              00414053                                                      
+          05  IS-TSU-SUFF-NAME-USER4           PIC X(10).              00414054                                                      
+          05  IS-TSU-SSN-USER4                 PIC S9(09) COMP-3.      00414055                                                      
+          05  IS-TSU-LAST-NAME-USER5           PIC X(20).              00414056                                                      
+          05  IS-TSU-FRST-NAME-USER5           PIC X(15).              00414057                                                      
+          05  IS-TSU-MIDI-NAME-USER5           PIC X(01).              00414058                                                      
+          05  IS-TSU-SUFF-NAME-USER5           PIC X(10).              00414059                                                      
+          05  IS-TSU-SSN-USER5                 PIC S9(09) COMP-3.      00414060                                                      
+          05  IS-TSU-LAST-NAME-USER6           PIC X(20).              00414061                                                      
+          05  IS-TSU-FRST-NAME-USER6           PIC X(15).              00414062                                                      
+          05  IS-TSU-MIDI-NAME-USER6           PIC X(01).              00414063                                                      
+          05  IS-TSU-SUFF-NAME-USER6           PIC X(10).              00414064                                                      
+          05  IS-TSU-SSN-USER6                 PIC S9(09) COMP-3.      00414065                                                      
+          05  IS-TSU-LAST-NAME-USER7           PIC X(20).              00414066                                                      
+          05  IS-TSU-FRST-NAME-USER7           PIC X(15).              00414067                                                      
+          05  IS-TSU-MIDI-NAME-USER7           PIC X(01).              00414068                                                      
+          05  IS-TSU-SUFF-NAME-USER7           PIC X(10).              00414069                                                      
+          05  IS-TSU-SSN-USER7                 PIC S9(09) COMP-3.      00414070                                                      
+          05  IS-TSU-LAST-NAME-USER8           PIC X(20).              00414071                                                      
+          05  IS-TSU-FRST-NAME-USER8           PIC X(15).              00414072                                                      
+          05  IS-TSU-MIDI-NAME-USER8           PIC X(01).              00414073                                                      
+          05  IS-TSU-SUFF-NAME-USER8           PIC X(10).              00414074                                                      
+          05  IS-TSU-SSN-USER8                 PIC S9(09) COMP-3.      00414075                                                      
+          05  IS-TSU-LAST-NAME-USER9           PIC X(20).              00414076                                                      
+          05  IS-TSU-FRST-NAME-USER9           PIC X(15).              00414077                                                      
+          05  IS-TSU-MIDI-NAME-USER9           PIC X(01).              00414078                                                      
+          05  IS-TSU-SUFF-NAME-USER9           PIC X(10).              00414079                                                      
+          05  IS-TSU-SSN-USER9                 PIC S9(09) COMP-3.      00414080                                                      
+          05  IS-TSU-CUSTOM-DATA-94            PIC X(16).              00414081                                                      
+          05  IS-TSU-PROD-CHG-ACCT-TO          PIC X(19).              00414082                                                      
+          05  IS-TSU-PROD-CHG-ACCT-FROM        PIC X(19).              00414083                                                      
+          05  IS-TSU-PROD-CHG-DATE             PIC S9(7)  COMP-3.      00414084                                                      
+          05  IS-TSU-INSURANCE-CLAIM-STAT      PIC X(01).              00414085                                                      
+          05  IS-TSU-PROD-CHG-FLAG             PIC X(01).              00414086                                                      
+          05  IS-TSU-SECURITY-OPT-SET          PIC 9(03).              00414087                                                      
+          05  IS-TSU-BUREAU-OPT-SET            PIC 9(03).              00414088                                                      
+          05  IS-TSU-BUREAU-OVRD-IND           PIC X(01).              00414089                                                      
+          05  IS-TSU-CYC-ASSIGN-OPT-SET        PIC 9(02).              00414090                                                      
+          05  IS-TSU-ORIG-ACE-OPT-SET          PIC 9(05).              00414091                                                      
+          05  IS-TSU-STRT-ALT-DISCL-DT         PIC S9(07) COMP-3.      00414092                                                      
+          05  IS-TSU-STRT-ALT-DISCL-YYYYMMDD   PIC X(08).              00414093                                                      
+          05  IS-TSU-ALT-DISCL-STATUS          PIC X(01).              00414094                                                      
+          05  IS-TSU-CIT-OPT-SET               PIC 9(04).              00414095                                                      
+          05  IS-TSU-MIN-PAYMT-OPT-SET         PIC 9(04).              00414096                                                      
+          05  IS-TSU-PRICE-OPT-SET             PIC 9(04).              00414097                                                      
+          05  IS-TSU-ANFEE-REBT-OPT-SET        PIC 9(03).              00414098                                                      
+          05  IS-TSU-UPGRADE-OPT-SET           PIC 9(04).              00414099                                                      
+          05  IS-TSU-WRITEOFF-OPT-SET          PIC 9(02).              00414100                                                      
+          05  IS-TSU-SKIP-PAY-OPT-SET          PIC 9(03).              00414101                                                      
+          05  IS-TSU-SERV-FEE-OPT-SET          PIC X(04).              00414102                                                      
+          05  IS-TSU-PAYMT-HIER-TYPE           PIC X(01).              00414103                                                      
+          05  IS-TSU-ANN-FEE-OPT-SET           PIC 9(04).              00414104                                                      
+          05  IS-TSU-ALT-DISCL-CHG-DATE        PIC S9(07) COMP-3.      00414105                                                      
+          05  IS-TSU-ALT-DISCL-CHG-YYYYMMDD    PIC X(08).              00414106                                                      
+          05  IS-TSU-CHGOFF-LAG-DATE           PIC S9(07) COMP-3.      00414107                                                      
+          05  IS-TSU-CHGOFF-LAG-YYYYMMDD       PIC X(08).              00414108                                                      
+          05  IS-TSU-STATC-CHGOFF              PIC X(02).              00414109                                                      
+          05  IS-TSU-STATC-RETURN-MAIL         PIC X(02).              00414110                                                      
+          05  IS-TSU-PROBE-LINE-INCR           PIC X(01).              00414111                                                      
+          05  IS-TSU-PROBE-LINE-DECR           PIC X(01).              00414112                                                      
+          05  IS-TSU-PROBE-PRICE-INCR          PIC X(01).              00414113                                                      
+          05  IS-TSU-PROBE-PRICE-DECR          PIC X(01).              00414114                                                      
+          05  IS-TSU-PROBE-DELQ-ID             PIC X(08).              00414115                                                      
+          05  IS-TSU-PROBE-DELQ-CODE           PIC X(04).              00414116                                                      
+          05  IS-TSU-PROBE-DELQ-DATE           PIC S9(07) COMP-3.      00414117                                                      
+          05  IS-TSU-PROBE-DELQ-YYYYMMDD       PIC X(08).              00414118                                                      
+          05  IS-TSU-PROBE-DELQ-USER-1A        PIC X(08).              00414119                                                      
+          05  IS-TSU-PROBE-DELQ-USER-1B        PIC X(08).              00414120                                                      
+          05  IS-TSU-PROBE-DELQ-USER-1C        PIC X(08).              00414121                                                      
+          05  IS-TSU-PROBE-DELQ-USER-2A        PIC X(08).              00414122                                                      
+          05  IS-TSU-PROBE-DELQ-USER-2B        PIC X(08).              00414123                                                      
+          05  IS-TSU-PROBE-DELQ-USER-2C        PIC X(08).              00414124                                                      
+          05  IS-TSU-PROBE-DELQ-USER-3A        PIC X(08).              00414125                                                      
+          05  IS-TSU-PROBE-DELQ-USER-3B        PIC X(08).              00414126                                                      
+          05  IS-TSU-PROBE-DELQ-USER-3C        PIC X(08).              00414127                                                      
+          05  FILLER                           PIC X(552).             00414128                                                      
+-

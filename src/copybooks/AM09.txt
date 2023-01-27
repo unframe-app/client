@@ -1,0 +1,43 @@
+      ******************* DDS COPYLIB GENERATION ******************
+      * SEGMENT NAME              : AMSAM09
+      **************************************************************
+           05 AM09-ADDT-CUSTOM-DATA-INFO.
+              10 AM09-SEGMENT-LENGTH                  PIC S9(4) COMP.
+              10 AM09-ADDT-CUSTOM-DATA-KEY.
+                 15 AM09-CUSTOM-SEGMENT-TYPE          PIC X(1).
+                    88 AM09-ONLY-ONE-SEGMENT            VALUE '1'.
+              10 AM09-CUSTOM-DATA.
+                 15 AM09-CUSTOM-CNT                   PIC S9(5) COMP-3.
+                 15 AM09-CODE-15                      PIC X(01).
+                 15 AM09-CODE-16                      PIC X(01).
+                 15 AM09-CODE-17                      PIC X(01).
+                 15 AM09-CODE-18                      PIC X(01).
+                 15 AM09-CODE-19                      PIC X(01).
+                 15 AM09-CODE-45                      PIC X(04).
+                 15 AM09-CODE-46                      PIC X(04).
+                 15 AM09-CODE-47                      PIC X(04).
+                 15 AM09-CODE-48                      PIC X(04).
+                 15 AM09-CODE-50                      PIC X(05).
+                 15 AM09-CODE-51                      PIC X(05).
+                 15 AM09-CODE-52                      PIC X(05).
+                 15 AM09-CODE-53                      PIC X(05).
+                 15 AM09-CODE-65                      PIC X(06).
+                 15 AM09-CODE-66                      PIC X(06).
+                 15 AM09-CODE-67                      PIC X(06).
+                 15 AM09-CODE-68                      PIC X(06).
+                 15 AM09-CODE-69                      PIC X(06).
+                 15 AM09-CODE-82                      PIC X(08).
+                 15 AM09-CODE-83                      PIC X(08).
+                 15 AM09-CODE-84                      PIC X(08).
+                 15 AM09-CODE-85                      PIC X(08).
+                 15 AM09-CODE-86                      PIC X(08).
+                 15 AM09-CODE-87                      PIC X(08).
+                 15 AM09-CODE-94                      PIC X(16).
+                 15 AM09-CODE-95                      PIC X(09).
+                 15 AM09-CODE-96                      PIC X(09).
+                 15 AM09-CODE-97                      PIC X(09).
+                 15 AM09-CODE-98                      PIC X(09).
+                 15 AM09-CURR-PROFIT-CENTER           PIC X(10).
+                 15 AM09-PREV-PROFIT-CENTER           PIC X(10).
+                 15 AM09-FILLER                       PIC X(119).
+

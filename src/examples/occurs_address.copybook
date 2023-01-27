@@ -1,0 +1,9 @@
+******************* Unbook example **************************
+* This is just a simple file with address style record
+**************************************************************
+      05 ADDRESS1.
+        10 NUM                 PIC XXXXX.
+        10 Street              PIC X(18).
+        10 City                PIC X(11).   
+        10 State               PIC XX.
+        10 Zip                 PIC XXXXX.

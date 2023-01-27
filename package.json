@@ -1,0 +1,19 @@
+{
+  "name": "Unbook and Unframe example client",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "ts-node src/converter-client.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.7",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "axios": "^1.2.3",
+    "codepage": "^1.15.0",
+    "fetch": "^1.1.0"
+  }
+}

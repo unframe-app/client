@@ -1,0 +1,5 @@
+******************* Unbook example ******************
+* This is just a simple file with 100,000 lines of Comp-3
+**************************************************************
+      05 FAKE-SEGMENT.
+        10 FAKE-COMP-3                  PIC S9(2) COMP-3.

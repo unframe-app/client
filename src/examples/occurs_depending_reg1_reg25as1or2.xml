@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Definition>
+  <AminoSoftware.Ebcdic.Definition>
+    <Columns>
+      <AminoSoftware.Ebcdic.CopyBook.RegularColumn Name="FlagColumn" Length="1" ColumnID="3926ecaf-91bc-483b-901e-9aa112af5f3f" NumberOfDecimalPlaces="0" />
+      <AminoSoftware.Ebcdic.CopyBook.OccursDependingOnColumn Name="OccursDepedingColumn" ColumnID="5789c276-3a33-4039-9169-a05ce7c5a09c">
+        <DependingOnColumn>
+          <AminoSoftware.Ebcdic.CopyBook.RegularColumn Name="FlagColumn" Length="1" ColumnID="3926ecaf-91bc-483b-901e-9aa112af5f3f" NumberOfDecimalPlaces="0" />
+        </DependingOnColumn>
+        <RegularColumns>
+          <AminoSoftware.Ebcdic.CopyBook.RegularColumn Name="Name" Length="25" ColumnID="075e7d10-c7c8-45d1-83a5-4578309b0ea2" NumberOfDecimalPlaces="0" />
+        </RegularColumns>
+      </AminoSoftware.Ebcdic.CopyBook.OccursDependingOnColumn>
+    </Columns>
+  </AminoSoftware.Ebcdic.Definition>
+</Definition>
