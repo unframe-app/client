@@ -1,12 +1,15 @@
 {
-  "name": "Unbook and Unframe example client",
+  "name": "@unframe/client",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "ts-node src/converter-client.ts",
-    "init-git": "git config --global user.email 'unframe@unframe.com' && git config --global user.name 'unframe'"
+    "example-1": "ts-node src/converter-client.ts reg1_reg50",
+    "example-2": "ts-node src/converter-client.ts zoned_100klines",
+    "example-3": "ts-node src/converter-client.ts comp3_100klines",
+    "example-4": "ts-node src/converter-client.ts occurs_address",
+    "example-5": "ts-node src/converter-client.ts zoned_fewlines"
   },
-  "author": "",
+  "author": "unframe.app@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.11.7",
@@ -15,6 +18,7 @@
   "dependencies": {
     "axios": "^1.2.3",
     "codepage": "^1.15.0",
-    "fetch": "^1.1.0"
+    "fetch": "^1.1.0",
+    "npmrc": "^1.1.1"
   }
 }
