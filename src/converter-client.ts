@@ -5,9 +5,11 @@ import FormData from 'form-data';
 import { Console } from 'console';
 
 
-export const targetServerUnbook = 'http://localhost:7071/api/Unbook';
-export const targetServerUnfield = 'http://localhost:7071/api/Unfield';
+
+export const targetServerUnbook = 'https://unframe1.p.rapidapi.com/Unbook';
+export const targetServerUnfield = 'https://unframe1.p.rapidapi.com/Unfield';
 export const root = 'src/examples/';
+export const rapidapiKey = '';
 
 
 
@@ -45,7 +47,8 @@ export const unbook = async (pathToCopybookFile: string) => {
 
     const unbooked: AxiosResponse = await axios.post(targetServerUnbook, formData, {
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'X-RapidAPI-Key': rapidapiKey
         }
     });
     console.log('got # of items: ', unbooked.data.length);
@@ -126,6 +129,11 @@ export const unfield = async (pathToFieldInfoFile: string, pathToBinaryFile: str
                 const unfielded: AxiosResponse = await axios.post(targetServerUnfield, {
                     base64Value: base64,
                     fieldInfo: fieldInfo
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-RapidAPI-Key': rapidapiKey
+                    }
                 });
                 console.log(`writing field to output file: ${fieldInfo.name}`);
                 console.log('unfielded: ', unfielded.data);

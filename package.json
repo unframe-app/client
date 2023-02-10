@@ -1,7 +1,7 @@
 {
   "name": "@unframe/client",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "BETA example package for unframe client",
   "scripts": {
     "example-1": "ts-node src/converter-client.ts reg1_reg50",
     "example-2": "ts-node src/converter-client.ts zoned_100klines",

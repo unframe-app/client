@@ -30,6 +30,8 @@ Run: `npm install --save-dev @unframe/client` or `yarn add --dev @unframe/client
 Usage
 =====
 
+Currently the client is hardcoded for local usage but will be updated when the API is available.
+
 The converter-client.ts is meant as an example client to guide development of your own client code. 
 
 There are a few example files that can be run:
